@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, maximum-scale=1.0, user-scalable=no">
+
+	<!-- Import the webpage's stylesheet -->
+    <link rel="stylesheet" type="text/css" href="/../static/css/style.css?q={{ time }}" />
+
+    <!-- Import Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+
+    <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Import fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Domine:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quattrocento+Sans&display=swap" rel="stylesheet">
+
+
+</head>
+
+<body>
+    <!-- Form -->
+        <section class="page-section" id="receive-form-section">
+            <div class="container">
+                <form method="POST" action="/getpredictions">
+                    <div class="form-group">
+                        <label for="fullname">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Jane" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="matchone">Atalanta vs PSG</label>
+                        <input type="number" class="form-control" id="atalanta" name="atalanta" placeholder="Atalanta" required>
+                        <input type="number" class="form-control" id="psg" name="psg" placeholder="PSG" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="matchtwo">Atletico Madrid vs RB Leipzig</label>
+                        <input type="number" class="form-control" id="atm" name="atm" placeholder="Atletico Madrid" required>
+                        <input type="number" class="form-control" id="rbl" name="rbl" placeholder="RB Leipzig" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="matchthree">Bayern Munich vs Barcelona</label>
+                        <input type="number" class="form-control" id="bayern" name="bayern" placeholder="Bayern Munich" required>
+                        <input type="number" class="form-control" id="barca" name="barca" placeholder="Barcelona" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="matchfour">Manchester City vs Lyon</label>
+                        <input type="number" class="form-control" id="mancity" name="mancity" placeholder="Manchester City" required>
+                        <input type="number" class="form-control" id="lyon" name="lyon" placeholder="Lyon" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <!-- <input type="submit" value="Submit"> -->
+                </form>
+            </div>
+        </section>
+
+    <!-- Compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+</body>
+</html>
