@@ -22,33 +22,53 @@
 
     </head>
     <body>
-        <div class="container">
-            <center><h1>Welcome to UCL 2020 Quarterfinals predictions!</h1></center>
-
-            <table class="table table-dark">
-                <thead>
-                    <tr>
-                        <th scope="col">Name</th>
-                        <th scope="col">Atalanta vs PSG</th>
-                        <th scope="col">Atletico Madrid vs RB Leipzig</th>
-                        <th scope="col">Bayern Munich vs Barcelona</th>
-                        <th scope="col">Manchester City vs Lyon</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for item in predictview %}
-                    <tr>
-                        <th scope="row">{{item.name}}</th>
-                        <td>{{item.atalanta}}-{{item.psg}}</td>
-                        <td>{{item.atletico}}-{{item.leipzig}}</td>
-                        <td>{{item.bayern}}-{{item.barcelona}}</td>
-                        <td>{{item.mancity}}-{{item.lyon}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            <a href="/getpredictions"><button type="button" class="btn btn-primary">Submit Predictions</button></a>
-        </div>
+        <center><h1>Welcome to UCL 2020 predictions!</h1></center>
+        <br>
+            <br>
+            <div class="container">
+                <table class="table table-dark">
+                    <center><h1>Quarterfinals</h1></center>
+                    <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Atalanta vs PSG</th>
+                            <th scope="col">Your predictions</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">Atletico Madrid vs RB Leipzig</th>
+                            <th scope="col">Your predictions</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">Bayern Munich vs Barcelona</th>
+                            <th scope="col">Your predictions</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">Manchester City vs Lyon</th>
+                            <th scope="col">Your predictions</th>
+                            <th scope="col">Points</th>
+                            <th scope="col">Total Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in predictview %}
+                        <tr>
+                            <th scope="row">{{item.name}}</th>
+                            <td>1-2</td>
+                            <td>{{item.atalanta}}-{{item.psg}}</td>
+                            <td>{{item.points}}</td>
+                            <td></td>
+                            <td>{{item.atletico}}-{{item.leipzig}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.bayern}}-{{item.barcelona}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>{{item.mancity}}-{{item.lyon}}</td>
+                            <td>-</td>
+                            <td>{{item.points}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- <a href="/getpredictions"><button type="button" class="btn btn-primary">Submit Predictions</button></a> -->
 
 
 
