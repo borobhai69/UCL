@@ -112,8 +112,8 @@ def match_one():
 
 @app.route('/match_two')
 def match_two():
-    final_atletico = 2
-    final_leipzig = 1
+    final_atletico = 1
+    final_leipzig = 2
     predictions = mongo.db.predictions
     predictview = list(predictions.find({}))
     matchtwo_ten = []
@@ -122,9 +122,9 @@ def match_two():
     for score in predictview:
         if int(score["atletico"]) == final_atletico and int(score["leipzig"]) == final_leipzig:
             matchtwo_ten.append(score["name"])
-        elif int(score["atletico"]) > int(score["leipzig"]):
-            matchtwo_four.append(score["name"])
         elif int(score["atletico"]) < int(score["leipzig"]):
+            matchtwo_four.append(score["name"])
+        elif int(score["atletico"]) > int(score["leipzig"]):
             matchtwo_zero.append(score["name"])
         else:
             matchtwo_zero.append(score["name"])
