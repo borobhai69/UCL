@@ -33,8 +33,15 @@ mongo = PyMongo(app)
 def index():
     predictions = mongo.db.predictions
     predictview = list(predictions.find({}))
-    return render_template('index.html', time = datetime.now(), predictview = predictview)
+    semi = mongo.db.semi
+    semiview = list(semi.find({}))
+    return render_template('index.html', time = datetime.now(), predictview = predictview, semiview = semiview)
 
+@app.route('/getquarter')
+def getquarter():
+    predictions = mongo.db.predictions
+    predictview = list(predictions.find({}))
+    return render_template('quarter.html', time = datetime.now(), predictview = predictview)
 
 # CONNECT TO DB, ADD DATA
 
@@ -46,43 +53,29 @@ def getpredictions():
     else:
         # this is storing the data from the form 
         name = request.form['name']
-        atalanta = request.form['atalanta']
-        psg = request.form['psg']
-        atletico = request.form['atm']
         leipzig = request.form['rbl']
-        bayern = request.form['bayern']
-        barcelona = request.form['barca']
-        mancity = request.form['mancity']
+        psg = request.form['psg']
         lyon = request.form['lyon']
+        bayern = request.form['bayern']
         # this is connecting to mongodb
-        predictions = mongo.db.predictions
+        semi = mongo.db.semi
         session["username"] = name
         session_name = session["username"]
-        session["atalanta"] = atalanta
-        session_atalanta = session["atalanta"]
-        session["psg"] = psg
-        session_psg = session["psg"]
-        session["atletico"] = atletico
-        session_atletico = session["atletico"]
         session["leipzig"] = leipzig
         session_leipzig = session["leipzig"]
-        session["bayern"] = bayern
-        session_bayern = session["bayern"]
-        session["barcelona"] = barcelona
-        session_barcelona = session["barcelona"]
-        session["mancity"] = mancity
-        session_mancity = session["mancity"]
+        session["psg"] = psg
+        session_psg = session["psg"]
         session["lyon"] = lyon
         session_lyon = session["lyon"]
+        session["bayern"] = bayern
+        session_bayern = session["bayern"]
         # insert new data
-        predictions.insert({'name': session_name, 'atalanta': session_atalanta, 'psg': session_psg, 'atletico': session_atletico, 'leipzig': session_leipzig, 'bayern': session_bayern, 'barcelona': session_barcelona, 'mancity': session_mancity, 'lyon': session_lyon})
-        predictions = mongo.db.predictions
-        predictview = list(predictions.find({}))
-        for item in predictview:
-            print(item)
+        semi.insert({'name': session_name, 'leipzig': session_leipzig, 'psg': session_psg, 'lyon': session_lyon, 'bayern': session_bayern})
+        semi = mongo.db.semi
+        semiview = list(semi.find({}))
         # return a message to the user
         return redirect('/')
-        return render_template('index.html', time=datetime.now(), predictview = predictview, name = session_name, atalanta = session_atalanta, psg = session_psg, atletico = session_atletico, leipzig = session_leipzig, bayern = session_bayern, barcelona = session_barcelona, mancity = session_mancity, lyon = session_lyon)
+        return render_template('index.html', time=datetime.now(), semiview = semiview, name = session_name, leipzig = session_leipzig, psg = session_psg, lyon = session_lyon, bayern = session_bayern)
 
 @app.route('/match_one')
 def match_one():
