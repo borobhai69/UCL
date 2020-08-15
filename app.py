@@ -162,6 +162,32 @@ def match_three():
         predictions.update({'name': name}, {"$set": {'points3': 0}})
     return render_template('index.html', time=datetime.now())
 
+@app.route('/match_four')
+def match_four():
+    final_mancity = 1
+    final_lyon = 3
+    predictions = mongo.db.predictions
+    predictview = list(predictions.find({}))
+    matchfour_ten = []
+    matchfour_four = []
+    matchfour_zero = []
+    for score in predictview:
+        if int(score["mancity"]) == final_mancity and int(score["lyon"]) == final_lyon:
+            matchfour_ten.append(score["name"])
+        elif int(score["mancity"]) < int(score["lyon"]):
+            matchfour_four.append(score["name"])
+        elif int(score["mancity"]) > int(score["lyon"]):
+            matchfour_zero.append(score["name"])
+        else:
+            matchfour_zero.append(score["name"])
+    for name in matchfour_ten:
+        predictions.update({'name': name}, {"$set": {'points4': 10}})
+    for name in matchfour_four:
+        predictions.update({'name': name}, {"$set": {'points4': 4}})
+    for name in matchfour_zero:
+        predictions.update({'name': name}, {"$set": {'points4': 0}})
+    return render_template('index.html', time=datetime.now())
+
 @app.route('/total')
 def total():
     predictions = mongo.db.predictions
@@ -170,6 +196,7 @@ def total():
         point1 = item["points1"]
         point2 = item["points2"]
         point3 = item["points3"]
-        total = point1 + point2 + point3
+        point4 = item["points4"]
+        total = point1 + point2 + point3 + point4
         predictions.update({'name': item["name"]}, {"$set": {'total': total}})
     return render_template('index.html', time=datetime.now())
