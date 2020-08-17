@@ -45,37 +45,36 @@ def getquarter():
 
 # CONNECT TO DB, ADD DATA
 
-@app.route('/getpredictions', methods = ["GET", "POST"])
-
-def getpredictions():
-    if request.method == "GET":
-        return render_template('predict.html', time=datetime.now(), session = session)
-    else:
-        # this is storing the data from the form 
-        name = request.form['name']
-        leipzig = request.form['rbl']
-        psg = request.form['psg']
-        lyon = request.form['lyon']
-        bayern = request.form['bayern']
-        # this is connecting to mongodb
-        semi = mongo.db.semi
-        session["username"] = name
-        session_name = session["username"]
-        session["leipzig"] = leipzig
-        session_leipzig = session["leipzig"]
-        session["psg"] = psg
-        session_psg = session["psg"]
-        session["lyon"] = lyon
-        session_lyon = session["lyon"]
-        session["bayern"] = bayern
-        session_bayern = session["bayern"]
-        # insert new data
-        semi.insert({'name': session_name, 'leipzig': session_leipzig, 'psg': session_psg, 'lyon': session_lyon, 'bayern': session_bayern})
-        semi = mongo.db.semi
-        semiview = list(semi.find({}))
-        # return a message to the user
-        return redirect('/')
-        return render_template('index.html', time=datetime.now(), semiview = semiview, name = session_name, leipzig = session_leipzig, psg = session_psg, lyon = session_lyon, bayern = session_bayern)
+# @app.route('/getpredictions', methods = ["GET", "POST"])
+# def getpredictions():
+#     if request.method == "GET":
+#         return render_template('predict.html', time=datetime.now(), session = session)
+#     else:
+#         # this is storing the data from the form 
+#         name = request.form['name']
+#         leipzig = request.form['rbl']
+#         psg = request.form['psg']
+#         lyon = request.form['lyon']
+#         bayern = request.form['bayern']
+#         # this is connecting to mongodb
+#         semi = mongo.db.semi
+#         session["username"] = name
+#         session_name = session["username"]
+#         session["leipzig"] = leipzig
+#         session_leipzig = session["leipzig"]
+#         session["psg"] = psg
+#         session_psg = session["psg"]
+#         session["lyon"] = lyon
+#         session_lyon = session["lyon"]
+#         session["bayern"] = bayern
+#         session_bayern = session["bayern"]
+#         # insert new data
+#         semi.insert({'name': session_name, 'leipzig': session_leipzig, 'psg': session_psg, 'lyon': session_lyon, 'bayern': session_bayern})
+#         semi = mongo.db.semi
+#         semiview = list(semi.find({}))
+#         # return a message to the user
+#         return redirect('/')
+#         return render_template('index.html', time=datetime.now(), semiview = semiview, name = session_name, leipzig = session_leipzig, psg = session_psg, lyon = session_lyon, bayern = session_bayern)
 
 @app.route('/match_one')
 def match_one():
