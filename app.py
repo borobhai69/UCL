@@ -32,7 +32,7 @@ mongo = PyMongo(app)
 
 def index():
     predictions = mongo.db.predictions
-    predictview = list(predictions.find({}))
+    predictview = list(predictions.find({}).sort('total', -1))
     semi = mongo.db.semi
     semiview = list(semi.find({}))
     return render_template('index.html', time = datetime.now(), predictview = predictview, semiview = semiview)
@@ -40,7 +40,7 @@ def index():
 @app.route('/getquarter')
 def getquarter():
     predictions = mongo.db.predictions
-    predictview = list(predictions.find({}))
+    predictview = list(predictions.find({}).sort('total', -1))
     return render_template('quarter.html', time = datetime.now(), predictview = predictview)
 
 # CONNECT TO DB, ADD DATA
