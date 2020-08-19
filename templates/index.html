@@ -30,7 +30,7 @@
                 <br>
                 <!-- <center><a href="/getpredictions"><button type="button" class="btn btn-primary">Add Semifinal predictions</button></a></center> -->
                 <div class="row">
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
                         <div class="table-responsive-sm table-responsive-md container">
                             <center><h1>Semifinals Predictions</h1></center>
                             <table class="table table-dark">
@@ -38,14 +38,18 @@
                                     <tr>
                                         <th scope="col">Name</th>
                                         <th scope="col">RB Leipzig vs PSG</th>
+                                        <th scope="col">Your Prediction</th>
                                         <th scope="col">Lyon vs Bayern Munich</th>
+                                        <th scope="col">Your Prediction</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {% for item in semiview %}
                                     <tr>
                                         <th scope="row">{{item.name}}</th>
+                                        <td>0-3</td>
                                         <td>{{item.leipzig}}-{{item.psg}}</td>
+                                        <td>-</td>
                                         <td>{{item.lyon}}-{{item.bayern}}</td>
                                     </tr>
                                     {% endfor %}
@@ -53,7 +57,7 @@
                             </table>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-6">
+                    <div class="col-lg-6 col-md-12 col-sm-12">
                         <center><h1>Current Points Table</h1></center>
                         <div class="table-responsive-sm table-responsive-md container">
                             <table class="table table-dark">

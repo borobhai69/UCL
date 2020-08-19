@@ -180,6 +180,34 @@ def match_four():
         predictions.update({'name': name}, {"$set": {'points4': 0}})
     return render_template('index.html', time=datetime.now())
 
+@app.route('/semi_one')
+def semi_one():
+    final_leipzig = 0
+    final_psg = 3
+    semi = mongo.db.semi
+    semiview = list(semi.find({}))
+    matchone_ten = []
+    matchone_four = []
+    matchone_zero = []
+    for score in semiview:
+        if int(score["leipzig"]) == final_leipzig and int(score["psg"]) == final_psg:
+            matchone_ten.append(score["name"])
+        elif int(score["leipzig"]) < int(score["psg"]):
+            matchone_four.append(score["name"])
+        elif int(score["leipzig"]) > int(score["psg"]):
+            matchone_zero.append(score["name"])
+        else:
+            matchone_zero.append(score["name"])
+    predictions = mongo.db.predictions
+    for name in matchone_ten:
+        predictions.update({'name': name}, {"$set": {'points5': 10}})
+    for name in matchone_four:
+        predictions.update({'name': name}, {"$set": {'points5': 4}})
+    for name in matchone_zero:
+        predictions.update({'name': name}, {"$set": {'points5': 0}})
+    return render_template('index.html', time=datetime.now())
+
+
 @app.route('/total')
 def total():
     predictions = mongo.db.predictions
@@ -189,6 +217,7 @@ def total():
         point2 = item["points2"]
         point3 = item["points3"]
         point4 = item["points4"]
-        total = point1 + point2 + point3 + point4
+        point5 = item["points5"]
+        total = point1 + point2 + point3 + point4 + point5
         predictions.update({'name': item["name"]}, {"$set": {'total': total}})
     return render_template('index.html', time=datetime.now())
