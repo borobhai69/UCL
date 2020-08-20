@@ -33,9 +33,9 @@ mongo = PyMongo(app)
 def index():
     predictions = mongo.db.predictions
     predictview = list(predictions.find({}).sort('total', -1))
-    semi = mongo.db.semi
-    semiview = list(semi.find({}))
-    return render_template('index.html', time = datetime.now(), predictview = predictview, semiview = semiview)
+    final = mongo.db.final
+    finalview = list(final.find({}))
+    return render_template('index.html', time = datetime.now(), predictview = predictview, finalview = finalview)
 
 @app.route('/getquarter')
 def getquarter():
@@ -43,38 +43,39 @@ def getquarter():
     predictview = list(predictions.find({}).sort('total', -1))
     return render_template('quarter.html', time = datetime.now(), predictview = predictview)
 
+@app.route('/getsemi')
+def getsemi():
+    semi = mongo.db.semi
+    semiview = list(semi.find({}))
+    return render_template('semi.html', time = datetime.now(), semiview = semiview)
+
 # CONNECT TO DB, ADD DATA
 
-# @app.route('/getpredictions', methods = ["GET", "POST"])
-# def getpredictions():
-#     if request.method == "GET":
-#         return render_template('predict.html', time=datetime.now(), session = session)
-#     else:
-#         # this is storing the data from the form 
-#         name = request.form['name']
-#         leipzig = request.form['rbl']
-#         psg = request.form['psg']
-#         lyon = request.form['lyon']
-#         bayern = request.form['bayern']
-#         # this is connecting to mongodb
-#         semi = mongo.db.semi
-#         session["username"] = name
-#         session_name = session["username"]
-#         session["leipzig"] = leipzig
-#         session_leipzig = session["leipzig"]
-#         session["psg"] = psg
-#         session_psg = session["psg"]
-#         session["lyon"] = lyon
-#         session_lyon = session["lyon"]
-#         session["bayern"] = bayern
-#         session_bayern = session["bayern"]
-#         # insert new data
-#         semi.insert({'name': session_name, 'leipzig': session_leipzig, 'psg': session_psg, 'lyon': session_lyon, 'bayern': session_bayern})
-#         semi = mongo.db.semi
-#         semiview = list(semi.find({}))
-#         # return a message to the user
-#         return redirect('/')
-#         return render_template('index.html', time=datetime.now(), semiview = semiview, name = session_name, leipzig = session_leipzig, psg = session_psg, lyon = session_lyon, bayern = session_bayern)
+@app.route('/getpredictions', methods = ["GET", "POST"])
+def getpredictions():
+    if request.method == "GET":
+        return render_template('predict.html', time=datetime.now(), session = session)
+    else:
+        # this is storing the data from the form 
+        name = request.form['name']
+        psg = request.form['psg']
+        bayern = request.form['bayern']
+        # this is connecting to mongodb
+        predictions = mongo.db.predictions
+        predictview = list(predictions.find({"name": name}))
+        print(predictview)
+        if len(predictview) > 0:
+            final = mongo.db.final
+            # insert new data
+            final.insert({'name': name, 'psg': psg, 'bayern': bayern})
+            final = mongo.db.final
+            finalview = list(final.find({}))
+            # return a message to the user
+            return redirect('/')
+            return render_template('index.html', time=datetime.now(), finalview = finalview, name = name, psg = psg, bayern = bayern)
+        else:
+            error = "Name not found! Please go back to find your name on the Point Table"
+            return render_template('predict.html', time=datetime.now(), error = error)
 
 @app.route('/match_one')
 def match_one():
@@ -207,6 +208,32 @@ def semi_one():
         predictions.update({'name': name}, {"$set": {'points5': 0}})
     return render_template('index.html', time=datetime.now())
 
+@app.route('/semi_two')
+def semi_two():
+    final_lyon = 0
+    final_bayern = 3
+    semi = mongo.db.semi
+    semiview = list(semi.find({}))
+    matchtwo_ten = []
+    matchtwo_four = []
+    matchtwo_zero = []
+    for score in semiview:
+        if int(score["lyon"]) == final_lyon and int(score["bayern"]) == final_bayern:
+            matchtwo_ten.append(score["name"])
+        elif int(score["lyon"]) < int(score["bayern"]):
+            matchtwo_four.append(score["name"])
+        elif int(score["lyon"]) > int(score["bayern"]):
+            matchtwo_zero.append(score["name"])
+        else:
+            matchtwo_zero.append(score["name"])
+    predictions = mongo.db.predictions
+    for name in matchtwo_ten:
+        predictions.update({'name': name}, {"$set": {'points6': 10}})
+    for name in matchtwo_four:
+        predictions.update({'name': name}, {"$set": {'points6': 4}})
+    for name in matchtwo_zero:
+        predictions.update({'name': name}, {"$set": {'points6': 0}})
+    return render_template('index.html', time=datetime.now())
 
 @app.route('/total')
 def total():
@@ -218,6 +245,7 @@ def total():
         point3 = item["points3"]
         point4 = item["points4"]
         point5 = item["points5"]
-        total = point1 + point2 + point3 + point4 + point5
+        point6 = item["points6"]
+        total = point1 + point2 + point3 + point4 + point5 + point6
         predictions.update({'name': item["name"]}, {"$set": {'total': total}})
     return render_template('index.html', time=datetime.now())

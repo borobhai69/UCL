@@ -23,35 +23,27 @@
     </head>
     <body>
             <div class="container">
-                <center><h1>Quarterfinals</h1></center>
+                <center><h1>Semifinals</h1></center>
                 <center><a href="/index"><button type="button" class="btn btn-primary">Go back</button></a></center>
                 <div class="table-responsive-sm table-responsive-md container">
                     <table class="table table-dark">
                         <thead>
                             <tr>
                                 <th scope="col">Name</th>
-                                <th scope="col">Atalanta vs PSG</th>
-                                <th scope="col">Your prediction</th>
-                                <th scope="col">Atletico Madrid vs RB Leipzig</th>
-                                <th scope="col">Your prediction</th>
-                                <th scope="col">Bayern Munich vs Barcelona</th>
-                                <th scope="col">Your prediction</th>
-                                <th scope="col">Manchester City vs Lyon</th>
-                                <th scope="col">Your predictions</th>
+                                <th scope="col">RB Leipzig vs PSG</th>
+                                <th scope="col">Your Prediction</th>
+                                <th scope="col">Lyon vs Bayern Munich</th>
+                                <th scope="col">Your Prediction</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in predictview %}
+                            {% for item in semiview %}
                             <tr>
                                 <th scope="row">{{item.name}}</th>
-                                <td>1-2</td>
-                                <td>{{item.atalanta}}-{{item.psg}}</td>
-                                <td>1-2</td>
-                                <td>{{item.atletico}}-{{item.leipzig}}</td>
-                                <td>8-2</td>
-                                <td>{{item.bayern}}-{{item.barcelona}}</td>
-                                <td>1-3</td>
-                                <td>{{item.mancity}}-{{item.lyon}}</td>
+                                <td>0-3</td>
+                                <td>{{item.leipzig}}-{{item.psg}}</td>
+                                <td>0-3</td>
+                                <td>{{item.lyon}}-{{item.bayern}}</td>
                             </tr>
                             {% endfor %}
                         </tbody>
