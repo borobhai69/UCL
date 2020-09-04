@@ -51,31 +51,31 @@ def getsemi():
 
 # CONNECT TO DB, ADD DATA
 
-@app.route('/getpredictions', methods = ["GET", "POST"])
-def getpredictions():
-    if request.method == "GET":
-        return render_template('predict.html', time=datetime.now(), session = session)
-    else:
-        # this is storing the data from the form 
-        name = request.form['name']
-        psg = request.form['psg']
-        bayern = request.form['bayern']
-        # this is connecting to mongodb
-        predictions = mongo.db.predictions
-        predictview = list(predictions.find({"name": name}))
-        print(predictview)
-        if len(predictview) > 0:
-            final = mongo.db.final
-            # insert new data
-            final.insert({'name': name, 'psg': psg, 'bayern': bayern})
-            final = mongo.db.final
-            finalview = list(final.find({}))
-            # return a message to the user
-            return redirect('/')
-            return render_template('index.html', time=datetime.now(), finalview = finalview, name = name, psg = psg, bayern = bayern)
-        else:
-            error = "Name not found! Please go back to find your name on the Point Table"
-            return render_template('predict.html', time=datetime.now(), error = error)
+# @app.route('/getpredictions', methods = ["GET", "POST"])
+# def getpredictions():
+#     if request.method == "GET":
+#         return render_template('predict.html', time=datetime.now(), session = session)
+#     else:
+#         # this is storing the data from the form 
+#         name = request.form['name']
+#         psg = request.form['psg']
+#         bayern = request.form['bayern']
+#         # this is connecting to mongodb
+#         predictions = mongo.db.predictions
+#         predictview = list(predictions.find({"name": name}))
+#         print(predictview)
+#         if len(predictview) > 0:
+#             final = mongo.db.final
+#             # insert new data
+#             final.insert({'name': name, 'psg': psg, 'bayern': bayern})
+#             final = mongo.db.final
+#             finalview = list(final.find({}))
+#             # return a message to the user
+#             return redirect('/')
+#             return render_template('index.html', time=datetime.now(), finalview = finalview, name = name, psg = psg, bayern = bayern)
+#         else:
+#             error = "Name not found! Please go back to find your name on the Point Table"
+#             return render_template('predict.html', time=datetime.now(), error = error)
 
 @app.route('/match_one')
 def match_one():
@@ -235,6 +235,33 @@ def semi_two():
         predictions.update({'name': name}, {"$set": {'points6': 0}})
     return render_template('index.html', time=datetime.now())
 
+@app.route('/final')
+def final():
+    final_psg = 0
+    final_bayern = 1
+    final = mongo.db.final
+    finalview = list(final.find({}))
+    match_ten = []
+    match_four = []
+    match_zero = []
+    for score in finalview:
+        if int(score["psg"]) == final_psg and int(score["bayern"]) == final_bayern:
+            match_ten.append(score["name"])
+        elif int(score["psg"]) < int(score["bayern"]):
+            match_four.append(score["name"])
+        elif int(score["psg"]) > int(score["bayern"]):
+            match_zero.append(score["name"])
+        else:
+            match_zero.append(score["name"])
+    predictions = mongo.db.predictions
+    for name in match_ten:
+        predictions.update({'name': name}, {"$set": {'points7': 10}})
+    for name in match_four:
+        predictions.update({'name': name}, {"$set": {'points7': 4}})
+    for name in match_zero:
+        predictions.update({'name': name}, {"$set": {'points7': 0}})
+    return render_template('index.html', time=datetime.now())
+
 @app.route('/total')
 def total():
     predictions = mongo.db.predictions
@@ -246,6 +273,7 @@ def total():
         point4 = item["points4"]
         point5 = item["points5"]
         point6 = item["points6"]
-        total = point1 + point2 + point3 + point4 + point5 + point6
+        point7 = item["points7"]
+        total = point1 + point2 + point3 + point4 + point5 + point6 + point7
         predictions.update({'name': item["name"]}, {"$set": {'total': total}})
     return render_template('index.html', time=datetime.now())
